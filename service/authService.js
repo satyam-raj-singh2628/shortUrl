@@ -16,7 +16,7 @@ function setToken(user) {
   return jwt.sign(payload, secretKey); // creates a token with the user payload that expires in 1 hour
 }
 
-function getToken(token) {
+function getUserUsingToken(token) {
   // return sessionIDToUserMap.get(id);
   if (!token) return null;
   try {
@@ -27,4 +27,4 @@ function getToken(token) {
   }
 }
 
-module.exports = { setToken, getToken };
+module.exports = { setToken, getUserUsingToken };
