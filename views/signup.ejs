@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>signUp page</title>
+  </head>
+  <body>
+    <p style="color: rgb(100, 63, 0); text-align: center">
+      please signup first...
+    </p>
+
+    <div style="text-align: center">
+      <form
+        method="post"
+        action="/user"
+        style="
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 15px;
+        "
+      >
+        <label style="color: rgb(0, 100, 63)">Username</label>
+        <input type="text" name="name" placeholder="Enter username" />
+        <br />
+        <label style="color: rgb(0, 100, 63)">Email</label>
+        <input type="email" name="email" placeholder="Enter email" /><br />
+        <label style="color: rgb(0, 100, 63)">Password</label>
+        <input type="password" name="password" placeholder="Enter password" />
+        <br />
+        <button type="submit">Signup</button>
+      </form>
+    </div>
+  </body>
+</html>

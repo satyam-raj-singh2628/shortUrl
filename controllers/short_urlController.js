@@ -17,29 +17,22 @@ const ShortUrlModel = require("../models/short_urlModel");
 
 async function generateNewShortUrl(req, res) {
   const body = req.body;
+  console.log(body, "bodyyyyy");
   if (!body || !body.url)
     return res.status(400).json({ error: "url is required" });
-
-  // check if URL already exists
-  const existing = await ShortUrlModel.findOne({ redirectUrl: body.url });
-  if (existing) {
-    const allUrls = await ShortUrlModel.find({});
-    return res.render("home", { shortUrlID: existing.shortId, allUrls });
-  }
 
   const shortID = nanoid(8);
   await ShortUrlModel.create({
     shortId: shortID,
     redirectUrl: body.url,
     visitHistory: [],
+    createdBy: req.user._id,
   });
 
-  const allUrls = await ShortUrlModel.find({});
-  return res.render("home", { shortUrlID: shortID, allUrls });
+  return res.render("home", { id: shortID });
 }
 
 async function getshortIDUrl(req, res) {
-  console.log("qq", req.params.shortId);
   const resultUrl = await ShortUrlModel.findOneAndUpdate(
     {
       shortId: req.params.shortId,
