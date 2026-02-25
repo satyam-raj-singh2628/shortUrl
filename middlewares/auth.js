@@ -1,12 +1,13 @@
-const { getUser } = require("../service/authService");
+const { getToken } = require("../service/authService");
 
 async function restricTOLoggedinUsersOnly(req, res, next) {
-  const sessionID = req.cookies?.uiD;
+  // console.log("restricTOLoggedinUsersOnlyfromAuth.jsmiddleware", req.cookies?.uiD);
+  const token = req.cookies?.uiD;
 
-  if (!sessionID) {
+  if (!token) {
     return res.redirect("/login");
   }
-  const user = getUser(sessionID);
+  const user = getToken(token);
   if (!user) {
     return res.redirect("/login");
   }
@@ -16,9 +17,11 @@ async function restricTOLoggedinUsersOnly(req, res, next) {
 }
 
 function checkUserAuth(req, res, next) {
-  const sessionID = req.cookies?.uiD;
+  // console.log("checkUserAuthfromAuth.jsmiddleware", req.cookies?.uiD);
+  const token = req.cookies?.uiD;
 
-  const user = getUser(sessionID);
+  const user = getToken(token);
+  console.log("user_fromcheckUserAuthfromAuth.jsmiddleware", user);
   if (user) req.user = user; // set user if found, otherwise continue
 
   next();

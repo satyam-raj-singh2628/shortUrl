@@ -3,17 +3,17 @@ const ShortUrlModel = require("../models/short_urlModel");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  console.log("logged in user id:", req.user?._id);
+  // console.log("logged_in_useridfromstaticRoutes", req.user?.id);
   if (!req.user) {
     return res.redirect("/login");
   }
-  const allUrls = await ShortUrlModel.find({ createdBy: req.user?._id });
-  console.log(allUrls, "allurls");
+  const allUrls = await ShortUrlModel.find({ createdBy: req.user?.id });
+  // console.log("allurlsfromstaticRoutes",allUrls);
   return res.render("home", { urls: allUrls });
 });
 
 router.post("/:id/delete", async (req, res) => {
-  console.log(req.params.id, "iddd");
+  // console.log( "idddfromstaticRoutes",req.params.id);
   await ShortUrlModel.findByIdAndDelete(req.params.id);
   return res.redirect("/");
 });
