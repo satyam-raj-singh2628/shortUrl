@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { removeListener } = require("../models/short_urlModel");
 const secretKey = "my_secret_key@26"; // In production, use environment variables
 
 // In-memory session store (for demonstration purposes)
@@ -10,6 +11,7 @@ function setToken(user) {
     id: user._id,
     name: user.name,
     email: user.email,
+    role: user.role,
   };
   // sessionIDToUserMap.set(id, user);
 

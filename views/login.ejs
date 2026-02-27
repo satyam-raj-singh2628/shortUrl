@@ -10,6 +10,10 @@
       <p style="color: rgb(100, 63, 0); text-align: center">
         please login to continue...
       </p>
+
+      <% if (locals.error) { %>
+  <p style="color:red;"><%= error %></p>
+<% } %>
       <form
         method="post"
         action="/user/login"

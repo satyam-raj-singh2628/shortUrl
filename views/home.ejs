@@ -8,6 +8,11 @@
   <body>
     <p style="color:red;">Welcome to ShortURL Page</p>
     <div>
+      <%if(locals.id) { %>
+        <p style="color:green;">Your Short URL is : <a href="/url/<%= id %>">http://localhost:8000/url/<%= id %></a></p>
+      <% } %>
+
+
       <form method="post" action="/url">
         <label style="color: rgb(60, 0, 255);">Put your URL here..</label>
         <input type="text" name="url" placeholder="http://www.google.com" />

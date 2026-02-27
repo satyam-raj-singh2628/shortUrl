@@ -1,9 +1,20 @@
 const express = require("express");
 const ShortUrlModel = require("../models/short_urlModel");
+const { restrictTo } = require("../middlewares/auth");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  // console.log("logged_in_useridfromstaticRoutes", req.user?.id);
+router.get("/admin/urls", restrictTo(["ADMIN"]), async (req, res) => {
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+  const allUrls = await ShortUrlModel.find({});
+
+  return res.render("home", { urls: allUrls });
+});
+
+router.get("/", restrictTo(["Normal", "ADMIN"]), async (req, res) => {
+  console.log("logged_in_useridfromstaticRoutes", req.user?.id);
+
   if (!req.user) {
     return res.redirect("/login");
   }

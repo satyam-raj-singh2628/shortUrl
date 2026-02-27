@@ -2,10 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const path = require("path");
-const {
-  restricTOLoggedinUsersOnly,
-  checkUserAuth,
-} = require("./middlewares/auth");
+const { checkForAuthentication, restrictTo } = require("./middlewares/auth");
 const shortUrlRoute = require("./routes/short_urlRoutes");
 const staticRoute = require("./routes/staticRoutes");
 const userRoute = require("./routes/userRoutes");
@@ -23,10 +20,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // to parse the form data coming from the frontend
 app.set("view engine", "ejs"); // telling express which view engine i want to use
 app.set("views", path.resolve("./views")); // now i will give the folder and path
-
-app.use("/url", restricTOLoggedinUsersOnly, shortUrlRoute); //restricTOLoggedinUsersOnly
+app.use(checkForAuthentication); // to set the req.user for every request if user is
+// logged in and to restrict the access to the routes
+// if user is not logged in.
+app.use("/url", restrictTo(["Normal", "ADMIN"]), shortUrlRoute); //restricTOLoggedinUsersOnly
 app.use("/user", userRoute);
-app.use("/", checkUserAuth, staticRoute);
+app.use("/", staticRoute);
 
 app.get("/url/:shortId", getshortIDUrl);
 

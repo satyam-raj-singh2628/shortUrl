@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const { setToken } = require("../service/authService");
 
 async function handleUserSignup(req, res) {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ error: "All fields are required" });
   }
@@ -13,7 +13,13 @@ async function handleUserSignup(req, res) {
       return res.status(400).json({ error: "Email already in use" });
     }
 
-    await UserModel.create({ name, email, password: password });
+    await UserModel.create({
+      name,
+      email,
+      password: password,
+      role: role || "Normal",
+    });
+
     res.redirect("/");
   } catch (error) {
     console.log(error);
@@ -23,11 +29,13 @@ async function handleUserSignup(req, res) {
 
 async function handleUserLogin(req, res) {
   const { email, password } = req.body;
+  console.log("email:", email, "password:", password);
   if (!email || !password) {
     return res.status(400).json({ error: "All fields are required" });
   }
   try {
     const user = await UserModel.findOne({ email, password });
+    console.log("userfromhandleUserLogin", user);
     if (!user) {
       return res.render("login", { error: "Invalid email or password" });
     }
